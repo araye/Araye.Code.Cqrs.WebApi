@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Araye.Code.Core.Security.Extensions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,11 @@ namespace Araye.Code.Cqrs.WebApi
     {
         private IMediator _mediator;
 
+        private string _currentUserId;
+
         protected IMediator Mediator => _mediator ?? (_mediator = HttpContext.RequestServices.GetService<IMediator>());
+
+        protected string CurrentLoggedInUserId => _currentUserId ?? (_currentUserId = HttpContext.User?.GetUserId());
+
     }
 }

@@ -31,12 +31,16 @@ namespace Araye.Code.Cqrs.WebApi
                 code = HttpStatusCode.NotFound;
             }
 
+            if (context.Exception is AppException)
+            {
+                code = HttpStatusCode.BadRequest;
+            }
+
             context.HttpContext.Response.ContentType = "application/json";
             context.HttpContext.Response.StatusCode = (int)code;
             context.Result = new JsonResult(new
             {
-                error = new[] { context.Exception.Message },
-                //stackTrace = context.Exception.StackTrace
+                error = new[] { context.Exception.Message }
             });
         }
     }
